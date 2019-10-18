@@ -516,6 +516,8 @@ var realx = x
 
 x = 0
 
+var bottom_origin_distance = bbox_bottom - round(y)
+var top_origin_distance = bbox_top - round(y)
 var right_origin_distance = bbox_right - round(x)
 var left_origin_distance = bbox_left - round(x)
 var intensity = ((sprite_height - 1) div argument2) + 2;
@@ -528,7 +530,7 @@ if(argument0 > 0)
 {
 	for(var i = 0; i < intensity; i++)
 	{
-		bump = max(bump, tilemap_get_at_pixel(argument1, ceil(x + right_origin_distance + argument0), bbox_top + ((boxheight / (intensity - 1)) * i)))
+		bump = max(bump, tilemap_get_at_pixel(argument1, ceil(x + right_origin_distance + argument0), y + top_origin_distance + ((boxheight / (intensity - 1)) * i)))
 	}
 	if(bump != 0)
 	{
@@ -540,7 +542,7 @@ else if (argument0 < 0)
 {
 	for(var i = 0; i < intensity; i++)
 	{
-		bump = max(bump, tilemap_get_at_pixel(argument1, floor(x + left_origin_distance + argument0), bbox_top + ((boxheight / (intensity - 1)) * i)))
+		bump = max(bump, tilemap_get_at_pixel(argument1, floor(x + left_origin_distance + argument0), y + top_origin_distance + ((boxheight / (intensity - 1)) * i)))
 	}
 	if(bump != 0)
 	{
@@ -565,6 +567,8 @@ y = 0
 
 var bottom_origin_distance = bbox_bottom - round(y)
 var top_origin_distance = bbox_top - round(y)
+var right_origin_distance = bbox_right - round(x)
+var left_origin_distance = bbox_left - round(x)
 var intensity = ((sprite_width - 1) div argument2) + 2
 var boxwidth = bbox_right - bbox_left
 var bump = 0
@@ -575,7 +579,7 @@ if(argument0 > 0)
 {
 	for(var i = 0; i < intensity; i++)
 	{
-		bump = max(bump, tilemap_get_at_pixel(argument1, bbox_left + ((boxwidth / (intensity - 1)) * i), ceil(y + bottom_origin_distance + argument0)))
+		bump = max(bump, tilemap_get_at_pixel(argument1, x + left_origin_distance + ((boxwidth / (intensity - 1)) * i), ceil(y + bottom_origin_distance + argument0)))
 	}
 	if(bump != 0)
 	{
@@ -587,7 +591,7 @@ else if (argument0 < 0)
 {
 	for(var i = 0; i < intensity; i++)
 	{
-		bump = max(bump, tilemap_get_at_pixel(argument1, bbox_left + ((boxwidth / (intensity - 1)) * i), floor(y + top_origin_distance + argument0)))
+		bump = max(bump, tilemap_get_at_pixel(argument1, x + left_origin_distance + ((boxwidth / (intensity - 1)) * i), floor(y + top_origin_distance + argument0)))
 	}
 	if(bump != 0)
 	{
@@ -652,3 +656,44 @@ else if (argument2 < 0)
 }
 
 return 0
+
+#define CamWidth
+return camera_get_view_width(view_camera[0])
+
+#define CamHeight
+return camera_get_view_height(view_camera[0])
+
+#define CreateCam
+if(!instance_exists(oCamera))
+{
+	if(!layer_exists("Camera"))
+	{
+		var camlay = layer_create(1, "Camera")
+	}
+	return instance_create_layer(x, y, camlay, oCamera)
+}
+
+#define ParralaxLayerMove
+if(layer_exists(argument0))
+{
+	layer_x(argument0, x/argument1);
+}
+
+#define CamSetPos
+///@desc sets camera position
+///@arg camID
+
+camera_set_view_pos(argument0, x - (camera_get_view_width(view_camera[0]) / 2), y - (camera_get_view_height(view_camera[0]) / 2))
+
+#define CamInit
+speedfactor = argument0
+cam = view_camera[0]
+
+#define CamUpdate
+x += (follow.x - x) / speedfactor
+y += (follow.y - y) / speedfactor
+
+x = clamp(x, CamWidth() / 2, room_width - CamWidth() / 2);
+y = clamp(y, CamHeight() / 2, room_height - CamHeight() / 2);
+
+CamSetPos(cameraID)

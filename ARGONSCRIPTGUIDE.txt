@@ -1,0 +1,36 @@
+[All Easing Functions](inputvalue,outputmin,outputmax,inputmax)
+
+Approach(a, b, amount)
+Wave(from, to, duration, offset)
+Wrap(value, min, max)
+JumpInDirection(distance, direction)
+Chance(percent)
+
+CustomTileCollide();
+//needs hsp, vsp, "collision" as the collision tilemap 
+//(not a string), TILESIZE as the tile size
+
+CheckGrounded(tilemap, tilesize);
+CheckOnWall(tilemap, tilesize, inputdir);
+
+Xcollision(hsp, tilemap, tilesize)
+Ycollision(vsp, tilemap, tilesize)
+
+string_left(str, num)
+
+DrawSetText(color, font, halign, valign)
+
+SaveStringToFile(filename, string);
+LoadJSONFromFile(filename);
+
+CustomXCollide()
+CustomYCollide()
+CustomTileCollide()
+
+CamWidth()
+CamHeight()
+CreateCam() 
+ParralaxLayerMove(layerID, factor of motion)
+CamSetPos() [abstracted inside CamUpdate]
+CamInit(speedfactor) [lower is faster]
+CamUpdate()
