@@ -31,6 +31,6 @@ CamWidth()
 CamHeight()
 CreateCam() 
 ParralaxLayerMove(layerID, factor of motion)
-CamSetPos() [abstracted inside CamUpdate]
+CamSetPos(cameraID, clamp[bool]) [abstracted inside CamUpdate]
 CamInit(speedfactor) [lower is faster]
-CamUpdate()
+CamUpdate(cameraID, clamp[bool]) //needs cameraID as variable
