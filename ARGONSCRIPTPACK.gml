@@ -664,13 +664,14 @@ return camera_get_view_width(view_camera[0])
 return camera_get_view_height(view_camera[0])
 
 #define CreateCam
-if(!instance_exists(oCamera))
+///@arg camera
+if(!instance_exists(argument0))
 {
 	if(!layer_exists("Camera"))
 	{
 		var camlay = layer_create(1, "Camera")
 	}
-	return instance_create_layer(x, y, camlay, oCamera)
+	return instance_create_layer(x, y, camlay, argument0)
 }
 
 #define ParralaxLayerMove
