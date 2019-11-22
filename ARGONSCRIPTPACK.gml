@@ -682,23 +682,24 @@ if(layer_exists(argument0))
 
 #define CamSetPos
 ///@desc sets camera position
-///@arg camID
 ///@arg clamp
 
-if(argument1)
+if(argument0)
 {
-	camera_set_view_pos(argument0, clamp(x, CamWidth() / 2, room_width - CamWidth() / 2) - (camera_get_view_width(view_camera[0]) / 2), clamp(y, CamHeight() / 2, room_height - CamHeight() / 2) - (camera_get_view_height(view_camera[0]) / 2))
+	camera_set_view_pos(view_camera[0], clamp(x, CamWidth() / 2, room_width - CamWidth() / 2) - (camera_get_view_width(view_camera[0]) / 2), clamp(y, CamHeight() / 2, room_height - CamHeight() / 2) - (camera_get_view_height(view_camera[0]) / 2))
 }
 else
 {
-	camera_set_view_pos(argument0, x - (camera_get_view_width(view_camera[0]) / 2), y - (camera_get_view_height(view_camera[0]) / 2))
+	camera_set_view_pos(view_camera[0], x - (camera_get_view_width(view_camera[0]) / 2), y - (camera_get_view_height(view_camera[0]) / 2))
 }
+
 #define CamInit
+///@arg speedfactor
 speedfactor = argument0
-cam = view_camera[0]
 
 #define CamUpdate
+///@arg clamp
 x += (follow.x - x) / speedfactor
 y += (follow.y - y) / speedfactor
 
-CamSetPos(argument0, argument1)
+CamSetPos(argument0)

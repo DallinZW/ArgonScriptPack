@@ -29,8 +29,8 @@ CustomTileCollide()
 
 CamWidth()
 CamHeight()
-CreateCam() 
+CreateCam(instance) 
 ParralaxLayerMove(layerID, factor of motion)
-CamSetPos(cameraID, clamp[bool]) [abstracted inside CamUpdate]
+CamSetPos(clamp[bool]) [abstracted inside CamUpdate]
 CamInit(speedfactor) [lower is faster]
-CamUpdate(cameraID, clamp[bool]) //needs cameraID as variable
+CamUpdate(clamp[bool]) //needs cameraID as variable
