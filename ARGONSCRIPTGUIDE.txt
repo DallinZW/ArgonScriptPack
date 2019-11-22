@@ -33,4 +33,4 @@ CreateCam(instance)
 ParralaxLayerMove(layerID, factor of motion)
 CamSetPos(clamp[bool]) [abstracted inside CamUpdate]
 CamInit(speedfactor) [lower is faster]
-CamUpdate(clamp[bool]) //needs cameraID as variable
+CamUpdate(clamp[bool], follow) //needs cameraID as variable

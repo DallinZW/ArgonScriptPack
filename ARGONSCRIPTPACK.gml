@@ -699,7 +699,8 @@ speedfactor = argument0
 
 #define CamUpdate
 ///@arg clamp
-x += (follow.x - x) / speedfactor
-y += (follow.y - y) / speedfactor
+///@arg follow
+x += (argument1.x - x) / speedfactor
+y += (argument1.y - y) / speedfactor
 
 CamSetPos(argument0)
