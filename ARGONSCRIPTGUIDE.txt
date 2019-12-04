@@ -35,4 +35,7 @@ CamSetPos(clamp[bool]) [abstracted inside CamUpdate]
 CamInit(speedfactor) [lower is faster]
 CamUpdate(clamp[bool], follow) //needs cameraID as variable
 
+GuiWidth()
+GuiHeight()
+
 CreateMeta(object) //makes object, makes it persistent

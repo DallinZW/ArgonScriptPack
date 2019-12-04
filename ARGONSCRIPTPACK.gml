@@ -704,6 +704,12 @@ x += (argument1.x - x) / speedfactor
 y += (argument1.y - y) / speedfactor
 CamSetPos(argument0)
 
+#define GuiWidth
+return display_get_gui_width()
+
+#define GuiHeight
+return display_get_gui_height()
+
 #define CreateMeta
 var inst = instance_create_depth(0, 0, 0, argument0);
 inst.persistent = true
