@@ -702,5 +702,9 @@ speedfactor = argument0
 ///@arg follow
 x += (argument1.x - x) / speedfactor
 y += (argument1.y - y) / speedfactor
-
 CamSetPos(argument0)
+
+#define CreateMeta
+var inst = instance_create_depth(0, 0, 0, argument0);
+inst.persistent = true
+return inst
