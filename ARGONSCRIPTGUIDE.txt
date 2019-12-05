@@ -39,3 +39,9 @@ GuiWidth()
 GuiHeight()
 
 CreateMeta(object) //makes object, makes it persistent
+
+instance_nth_furthest(x, y, obj, n)
+instance_nth_nearest(x, y, obj, n)
+instance_xth_furthest(x, y, obj, n, variable, value, operator) //variable and operator are strings
+instance_xth_nearest(x, y, obj, n, variable, value, operator)
+instance_xth_number(obj, variable, value, operator)
