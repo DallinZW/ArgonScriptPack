@@ -5,6 +5,8 @@ Wave(from, to, duration, offset)
 Wrap(value, min, max)
 JumpInDirection(distance, direction)
 Chance(percent)
+FloorZero(x)
+CeilZero(x)
 
 CustomTileCollide();
 //needs hsp, vsp, "collision" as the collision tilemap 
