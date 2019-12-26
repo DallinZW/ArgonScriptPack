@@ -939,6 +939,46 @@ _check_ = 0
 with(argument0) {if variable_instance_exists(self,argument1) or is_real(argument1) if evaluate(argument1,argument2,argument3) _check_ += 1}
 return _check_
 
+#define FloorZero
+///@desc rounds a number towards 0
+///@arg x
+
+if(argument0 == 0)
+{
+	return 0
+}
+else
+{
+	if(sign(argument0) > 0)
+	{
+		return floor(argument0)
+	}
+	else
+	{
+		return ceil(argument0)
+	}
+}
+
+#define CeilZero
+///@desc rounds a number away from 0
+///@arg x
+
+if(argument0 == 0)
+{
+	return 0
+}
+else
+{
+	if(sign(argument0) > 0)
+	{
+		return ceil(argument0)
+	}
+	else
+	{
+		return floor(argument0)
+	}
+}
+
 #define ds_grid_in_bounds
 ///@desc checks if a position is within the boundaries of a given ds_grid
 ///@arg grid
