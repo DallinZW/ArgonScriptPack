@@ -40,6 +40,8 @@ GuiHeight()
 
 CreateMeta(object) //makes object, makes it persistent
 
+ds_grid_in_bounds(grid, xpos, ypos)
+
 instance_nth_furthest(x, y, obj, n)
 instance_nth_nearest(x, y, obj, n)
 instance_xth_furthest(x, y, obj, n, variable, value, operator) //variable and operator are strings

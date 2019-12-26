@@ -938,3 +938,18 @@ var _check_;
 _check_ = 0
 with(argument0) {if variable_instance_exists(self,argument1) or is_real(argument1) if evaluate(argument1,argument2,argument3) _check_ += 1}
 return _check_
+
+#define ds_grid_in_bounds
+///@desc checks if a position is within the boundaries of a given ds_grid
+///@arg grid
+///@arg x
+///@arg y
+
+if(clamp(argument1, 0, ds_grid_width(argument0) - 1) != argument1) || (clamp(argument2, 0, ds_grid_height(argument0) - 1) != argument2)
+{
+	return false
+}
+else
+{
+	return true
+}
