@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Saving",
-    "path": "folders/Scripts/Saving.yy",
+    "name": "List Functions",
+    "path": "folders/Scripts/Lazyeye's Data Scripts/List Functions.yy",
   },
   "resourceVersion": "1.0",
-  "name": "SaveStringToFile",
+  "name": "ds_list_delete_value",
   "tags": [],
   "resourceType": "GMScript",
 }

@@ -3,7 +3,6 @@
 vel = [0, 0]
 
 collision = layer_tilemap_get_id("Collision")
-semisolid = layer_tilemap_get_id("Semisolid")
 
 p_id = 0
 

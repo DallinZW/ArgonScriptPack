@@ -1,1 +1,0 @@
-menu_render(3, input_value(0, input_values.horizontal), input_value(0, input_values.vertical), input_pressed(0, input_action.confirm), 160, 15)

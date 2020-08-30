@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Objects",
-    "path": "folders/Scripts/Objects.yy",
+    "name": "Array Functions",
+    "path": "folders/Scripts/Lazyeye's Data Scripts/Array Functions.yy",
   },
   "resourceVersion": "1.0",
-  "name": "SnowState",
+  "name": "ds_grid_to_array",
   "tags": [],
   "resourceType": "GMScript",
 }

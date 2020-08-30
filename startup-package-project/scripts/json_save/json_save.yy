@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Objects",
-    "path": "folders/Scripts/Objects.yy",
+    "name": "Saving and loading",
+    "path": "folders/Scripts/Lazyeye's Data Scripts/Saving and loading.yy",
   },
   "resourceVersion": "1.0",
-  "name": "SnowState",
+  "name": "json_save",
   "tags": [],
   "resourceType": "GMScript",
 }

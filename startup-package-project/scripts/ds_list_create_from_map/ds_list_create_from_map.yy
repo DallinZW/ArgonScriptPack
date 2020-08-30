@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Objects",
-    "path": "folders/Scripts/Objects.yy",
+    "name": "List Functions",
+    "path": "folders/Scripts/Lazyeye's Data Scripts/List Functions.yy",
   },
   "resourceVersion": "1.0",
-  "name": "SnowState",
+  "name": "ds_list_create_from_map",
   "tags": [],
   "resourceType": "GMScript",
 }

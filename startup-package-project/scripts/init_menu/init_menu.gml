@@ -34,7 +34,6 @@ function init_menu() {
 	menu_bump_dir_x = 1
 	menu_bump_size_y = 0
 	menu_bump_time_y = 0
-	menu_bump_dir_y = 1
 
 	menu_DAS_timer_x = 0
 	menu_DAS_timer_y = 0
