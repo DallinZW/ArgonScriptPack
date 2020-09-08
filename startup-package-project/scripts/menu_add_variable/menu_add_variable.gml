@@ -34,13 +34,17 @@ function menu_add_variable() {
 	//set the MAX_VALUE_WIDTH for the variable (if it is one
 	if(argument[6] != 0)
 	{
+		draw_set_font(font)
 		var wid = 0;
+		
 		if(is_array(argument[4]))
 		{
 			var arr = argument[4]
 			//it's an array style variable
 			for(var i = 0; i < array_length(argument[4]); i++)
 			{
+				var _temp = arr[i]
+				var temp = string_width(arr[i])
 				wid = max(wid, string_width(arr[i]))
 			}
 			menu_array[w][MENUDATA.MAX_VALUE_WIDTH] = wid

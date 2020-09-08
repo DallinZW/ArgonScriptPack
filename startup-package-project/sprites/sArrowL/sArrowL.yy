@@ -55,7 +55,7 @@
     "backdropXOffset": 0.0,
     "backdropYOffset": 0.0,
     "xorigin": 2,
-    "yorigin": 3,
+    "yorigin": 2,
     "eventToFunction": {},
     "eventStubScript": null,
     "parent": {"name":"sArrowL","path":"sprites/sArrowL/sArrowL.yy",},

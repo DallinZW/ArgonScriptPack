@@ -320,7 +320,7 @@ if(argument_count > 6)
 				if(!is_string(value)) value = string(value)
 				
 				//draw text at x + variableoffset, y + h
-				draw_text(x + width + xoff - sprite_get_width(menu_arrows[1]) * 2 - menu_array[i][MENUDATA.MAX_VALUE_WIDTH]/2, y + h, value)
+				draw_text(x + width + xoff - sprite_get_width(menu_arrows[1]) * 2 - menu_array[i][MENUDATA.MAX_VALUE_WIDTH]/2, y + h + yoff, value)
 			
 				//draw the arrows at prev position -/+ arrowdisplacement with tints if they're possible
 				var arrowalpha = 1;

@@ -4,8 +4,6 @@
 ///@arg input_x
 ///@arg input_y
 ///@arg confirm
-///@arg [horizontal_offset]
-///@arg [horizontal_offset_speed]
 ///@arg [change_sound]
 ///@arg [confirm_sound]
 function menu_render_stacked_center() {
@@ -20,20 +18,12 @@ var subbuffer = argument[1]
 var input_x = round(argument[2])
 var input_y = round(argument[3])
 var confirm = argument[4]
-var horizontal_offset = 0
-var horizontal_offset_speed = 0
 var sound = -1
 var confirmsound = -1
-if(argument_count > 6)
+if(argument_count > 5)
 {
-	horizontal_offset = argument[5]
-	horizontal_offset_speed = argument[6]
-	
-	if(argument_count > 8)
-	{
-		sound = argument[9]
-		confirmsound = argument[10]
-	}
+	sound = argument[5]
+	confirmsound = argument[6]
 }
 #endregion
 
@@ -193,15 +183,8 @@ if(argument_count > 6)
 			//selected
 			draw_set_color(menu_array[i][MENUDATA.SELECTCOLOR])
 		
-			//figure out horizontal offset
-			var xoff = 0;
-			var yoff = 0;
-			if(horizontal_offset > 0)
-			{
-				xoff = EaseOutCubic(min(selectedtimer, horizontal_offset_speed), 0, horizontal_offset, horizontal_offset_speed)
-			}
-		
 			//figure out bump
+			var yoff = 0;
 			if(menu_bump_timer_y < menu_bump_time_y)
 			{
 				//update timer
@@ -211,15 +194,15 @@ if(argument_count > 6)
 			}
 		
 			//draw the text finally
-			draw_text(x + xoff, y + yoff + h, str)
-			
-			h += string_height(str) + buffer
+			draw_text(x, y + yoff + h, str)
 		
 			//draw the pointer
 			if(menu_pointer_sprite != -1)
 			{
-				draw_sprite(menu_pointer_sprite, 0, x, y + h)
+				draw_sprite(menu_pointer_sprite, 0, x - string_width(menu_array[i][MENUDATA.STRING]) / 2 - sprite_get_width(menu_pointer_sprite) * 2, y + h)
 			}
+			
+			h += string_height(str) + buffer
 		
 			//check if it's variable value
 			if(is_string(menu_array[i][MENUDATA.SCRIPT]))
@@ -275,6 +258,13 @@ if(argument_count > 6)
 					}
 					
 					value = string_array[menu_array[i][MENUDATA.STEP_SIZE]]
+					
+					
+				
+					show_debug_message(menu_array[i][MENUDATA.MAX_VALUE_WIDTH])
+					var arr = menu_array[i][MENUDATA.MIN_VALUE]
+					show_debug_message(string_width(arr[menu_array[i][MENUDATA.STEP_SIZE]]))
+					show_debug_message(arr[menu_array[i][MENUDATA.STEP_SIZE]])
 				}
 				else
 				{
@@ -314,10 +304,12 @@ if(argument_count > 6)
 					{
 						menu_DAS_timer_x = 0
 					}
+					
+					
 				}
 				
 				//calculate bump
-				xoff = 0
+				var xoff = 0
 				if(menu_bump_timer_x < menu_bump_time_x)
 				{
 					//update timer
@@ -329,7 +321,7 @@ if(argument_count > 6)
 				if(!is_string(value)) value = string(value)
 				
 				//draw text at x + variableoffset, y + h
-				draw_text(x + xoff, y + h, value)
+				draw_text(x + xoff, y + h + yoff, value)
 			
 				//draw the arrows at prev position -/+ arrowdisplacement with tints if they're possible
 				var arrowalpha = 1;
@@ -345,9 +337,10 @@ if(argument_count > 6)
 				{
 					arrowalpha = menu_disabled_alpha
 				}
-				draw_sprite_ext(menu_arrows[1], 0, x + menu_array[i][MENUDATA.MAX_VALUE_WIDTH]/2 + sprite_get_width(menu_arrows[1]) * 2 + (xoff * (menu_bump_dir_x == 1)), y + h, 1, 1, 0, c_white, arrowalpha)
+				draw_sprite_ext(menu_arrows[1], 0, x + menu_array[i][MENUDATA.MAX_VALUE_WIDTH]/2 + sprite_get_width(menu_arrows[1]) * 2 + (xoff * (menu_bump_dir_x == 1)), y + h , 1, 1, 0, c_white, arrowalpha)
 				
 				h += string_height(value) + buffer
+				
 			}
 			else
 			{

@@ -47,7 +47,6 @@
     {"id":{"name":"mInput","path":"objects/mInput/mInput.yy",},"order":2,},
     {"id":{"name":"json_load","path":"scripts/json_load/json_load.yy",},"order":0,},
     {"id":{"name":"ds_list_add_map","path":"scripts/ds_list_add_map/ds_list_add_map.yy",},"order":1,},
-    {"id":{"name":"oMenuTest","path":"objects/oMenuTest/oMenuTest.yy",},"order":5,},
     {"id":{"name":"draw_pie_chart","path":"scripts/draw_pie_chart/draw_pie_chart.yy",},"order":0,},
     {"id":{"name":"EaseInOutCubic","path":"scripts/EaseInOutCubic/EaseInOutCubic.yy",},"order":1,},
     {"id":{"name":"menu_add_variable","path":"scripts/menu_add_variable/menu_add_variable.yy",},"order":4,},
