@@ -2,7 +2,7 @@ global.test = 4
 global.array_value = 1
 
 
-init_menu(fDebug, sArrowL, sArrowR, 0.7, 5, 5, 5, 5, -1)
+init_menu(fDebug, sArrowL, sArrowR, 0.7, 5, 5, 5, 5, sArrowR)
 var defcol = c_white
 var selcol = c_orange
 var inacol = c_gray
