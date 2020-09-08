@@ -137,14 +137,31 @@ if(argument_count > 7)
 			if(is_string(menu_array[i][MENUDATA.SCRIPT]))
 			{
 				//it is a variable value
-				var value = variable_global_get(menu_array[i][MENUDATA.SCRIPT])
-				
-				var minlimit = menu_array[i][MENUDATA.MIN_VALUE]
-				var maxlimit = menu_array[i][MENUDATA.MAX_VALUE]
-			
 				//set text horizontal alignment to middle
 				draw_set_halign(fa_center)
-			
+				
+				var value, minlimit, maxlimit
+				//check if it's variable number style or array scrolling style
+				if(is_array(menu_array[i][MENUDATA.MIN_VALUE]))
+				{
+					//it's array style
+					var string_array = menu_array[i][MENUDATA.MIN_VALUE]
+					var value_array = menu_array[i][MENUDATA.MAX_VALUE]
+					
+					value = string_array[menu_array[i][MENUDATA.STEP_SIZE]]
+					
+					minlimit = string_array[0]
+					maxlimit = string_array[array_length(string_array) - 1]
+				}
+				else
+				{
+					//it's number style
+					value = variable_global_get(menu_array[i][MENUDATA.SCRIPT])
+					
+					minlimit = menu_array[i][MENUDATA.MIN_VALUE]
+					maxlimit = menu_array[i][MENUDATA.MAX_VALUE]
+				}
+				
 				//draw text at x + variableoffset, y + h
 				draw_text(x + variable_offset, y + h, value)
 			
@@ -200,42 +217,96 @@ if(argument_count > 7)
 			if(is_string(menu_array[i][MENUDATA.SCRIPT]))
 			{
 				//it is a variable value
-				var value = variable_global_get(menu_array[i][MENUDATA.SCRIPT])
-				var _step = menu_array[i][MENUDATA.STEP_SIZE]
-				
-				var minlimit = menu_array[i][MENUDATA.MIN_VALUE]
-				var maxlimit = menu_array[i][MENUDATA.MAX_VALUE]
 			
-				//update array position based on input (using DAS)
-				if(input_x != 0) && (value + input_x >= minlimit) && (value + input_x <= maxlimit)
+				//set text horizontal alignment to middle
+				draw_set_halign(fa_center)
+				
+				//initialize some variables
+				var value, minlimit, maxlimit
+				
+				//check if it's array style or number style
+				if(is_array(menu_array[i][MENUDATA.MIN_VALUE]))
 				{
-					if	(menu_DAS_timer_x == 0) || //if DAS timer is zero, push one
-						(menu_DAS_timer_x >= menu_DAS_delay) && //or if DAS timer is more than delay
-						((menu_DAS_timer_x - menu_DAS_delay) mod menu_DAS_speed == 0) //and it's ready to push again, push one
+					//it's array style
+					var string_array = menu_array[i][MENUDATA.MIN_VALUE]
+					var value_array = menu_array[i][MENUDATA.MAX_VALUE]
+
+					
+					minlimit = string_array[0]
+					maxlimit = string_array[array_length(string_array) - 1]
+			
+					//update array position based on input (using DAS)
+					if(input_x != 0) && (menu_array[i][MENUDATA.STEP_SIZE] + input_x >= 0) && (menu_array[i][MENUDATA.STEP_SIZE] + input_x <= array_length(string_array) - 1)
 					{
-						//update menu_array index
-						value += input_x * _step
-					
-						//update bump timer stuffs
-						menu_bump_timer_x = 0
-						menu_bump_dir_x = input_x
-					
-						//update the actual variable based on menu_array index
-						variable_global_set(menu_array[i][MENUDATA.SCRIPT], value)
-					
-						//play the fun sound
-						if(sound != -1)
+						if	(menu_DAS_timer_x == 0) || //if DAS timer is zero, push one
+							(menu_DAS_timer_x >= menu_DAS_delay) && //or if DAS timer is more than delay
+							((menu_DAS_timer_x - menu_DAS_delay) mod menu_DAS_speed == 0) //and it's ready to push again, push one
 						{
-							audio_play_sound(sound, 10, false)
+							//update menu_array index
+							menu_array[i][MENUDATA.STEP_SIZE] += input_x
+					
+							//update bump timer stuffs
+							menu_bump_timer_x = 0
+							menu_bump_dir_x = input_x
+					
+							//update the actual variable based on menu_array index
+							variable_global_set(menu_array[i][MENUDATA.SCRIPT], value_array[menu_array[i][MENUDATA.STEP_SIZE]])
+					
+							//play the fun sound
+							if(sound != -1)
+							{
+								audio_play_sound(sound, 10, false)
+							}
 						}
+						menu_DAS_timer_x++;
 					}
-					menu_DAS_timer_x++;
+					else
+					{
+						menu_DAS_timer_x = 0
+					}
+					
+					value = string_array[menu_array[i][MENUDATA.STEP_SIZE]]
 				}
 				else
 				{
-					menu_DAS_timer_x = 0
-				}
+					//it's number style
+					value = variable_global_get(menu_array[i][MENUDATA.SCRIPT])
+					var _step = menu_array[i][MENUDATA.STEP_SIZE]
+				
+					minlimit = menu_array[i][MENUDATA.MIN_VALUE]
+					maxlimit = menu_array[i][MENUDATA.MAX_VALUE]
 			
+					//update array position based on input (using DAS)
+					if(input_x != 0) && (value + input_x >= minlimit) && (value + input_x <= maxlimit)
+					{
+						if	(menu_DAS_timer_x == 0) || //if DAS timer is zero, push one
+							(menu_DAS_timer_x >= menu_DAS_delay) && //or if DAS timer is more than delay
+							((menu_DAS_timer_x - menu_DAS_delay) mod menu_DAS_speed == 0) //and it's ready to push again, push one
+						{
+							//update menu_array index
+							value += input_x * _step
+					
+							//update bump timer stuffs
+							menu_bump_timer_x = 0
+							menu_bump_dir_x = input_x
+					
+							//update the actual variable based on menu_array index
+							variable_global_set(menu_array[i][MENUDATA.SCRIPT], value)
+					
+							//play the fun sound
+							if(sound != -1)
+							{
+								audio_play_sound(sound, 10, false)
+							}
+						}
+						menu_DAS_timer_x++;
+					}
+					else
+					{
+						menu_DAS_timer_x = 0
+					}
+				}
+				
 				//calculate bump
 				xoff = 0
 				if(menu_bump_timer_x < menu_bump_time_x)
@@ -245,9 +316,6 @@ if(argument_count > 7)
 		
 					xoff = menu_bump_dir_x * sin(pi * menu_bump_timer_x / menu_bump_time_x) * menu_bump_size_x
 				}
-			
-				//set text horizontal alignment to middle
-				draw_set_halign(fa_center)
 			
 				//draw text at x + variableoffset, y + h
 				draw_text(x + variable_offset + xoff, y + h, value)

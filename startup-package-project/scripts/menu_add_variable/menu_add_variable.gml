@@ -22,14 +22,14 @@ function menu_add_variable() {
 		font = argument[7]
 	}
 
-	menu_array[w][0] = argument[0]
-	menu_array[w][1] = argument[1]
-	menu_array[w][2] = font
-	menu_array[w][3] = argument[2]
-	menu_array[w][4] = argument[3]
-	menu_array[w][5] = argument[4]
-	menu_array[w][6] = argument[5]
-	menu_array[w][7] = argument[6]
+	menu_array[w][MENUDATA.STRING] = argument[0]
+	menu_array[w][MENUDATA.SCRIPT] = argument[1]
+	menu_array[w][MENUDATA.FONT] = font
+	menu_array[w][MENUDATA.COLOR] = argument[2]
+	menu_array[w][MENUDATA.SELECTCOLOR] = argument[3]
+	menu_array[w][MENUDATA.MIN_VALUE] = argument[4]
+	menu_array[w][MENUDATA.MAX_VALUE] = argument[5]
+	menu_array[w][MENUDATA.STEP_SIZE] = argument[6]
 
 	select_index = 0;
 
