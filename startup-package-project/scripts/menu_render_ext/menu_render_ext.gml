@@ -4,7 +4,6 @@
 ///@arg input_y
 ///@arg confirm
 ///@arg width
-///@arg variable_arrows_displacement
 ///@arg [horizontal_offset]
 ///@arg [horizontal_offset_speed]
 ///@arg [change_sound]
@@ -21,20 +20,19 @@ var input_x = round(argument[1])
 var input_y = round(argument[2])
 var confirm = argument[3]
 var width = argument[4]
-var variable_arrows_displacement = argument[5]
 var horizontal_offset = 0
 var horizontal_offset_speed = 0
 var sound = -1
 var confirmsound = -1
-if(argument_count > 7)
+if(argument_count > 6)
 {
-	horizontal_offset = argument[6]
-	horizontal_offset_speed = argument[7]
+	horizontal_offset = argument[5]
+	horizontal_offset_speed = argument[6]
 	
-	if(argument_count > 9)
+	if(argument_count > 8)
 	{
-		sound = argument[8]
-		confirmsound = argument[9]
+		sound = argument[9]
+		confirmsound = argument[10]
 	}
 }
 #endregion
