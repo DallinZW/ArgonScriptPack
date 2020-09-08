@@ -3,7 +3,7 @@
 ///@arg input_x
 ///@arg input_y
 ///@arg confirm
-///@arg variable_offset
+///@arg width
 ///@arg variable_arrows_displacement
 ///@arg [horizontal_offset]
 ///@arg [horizontal_offset_speed]
@@ -20,7 +20,7 @@ var buffer = argument[0]
 var input_x = round(argument[1])
 var input_y = round(argument[2])
 var confirm = argument[3]
-var variable_offset = argument[4]
+var width = argument[4]
 var variable_arrows_displacement = argument[5]
 var horizontal_offset = 0
 var horizontal_offset_speed = 0
@@ -137,7 +137,7 @@ if(argument_count > 7)
 			if(is_string(menu_array[i][MENUDATA.SCRIPT]))
 			{
 				//it is a variable value
-				//set text horizontal alignment to middle
+				//set text horizontal alignment to right
 				draw_set_halign(fa_center)
 				
 				var value, minlimit, maxlimit
@@ -162,8 +162,10 @@ if(argument_count > 7)
 					maxlimit = menu_array[i][MENUDATA.MAX_VALUE]
 				}
 				
+				if(!is_string(value)) value = string(value)
+				
 				//draw text at x + variableoffset, y + h
-				draw_text(x + variable_offset, y + h, value)
+				draw_text(x + width - sprite_get_width(menu_arrows[1]) * 2 - menu_array[i][MENUDATA.MAX_VALUE_WIDTH]/2, y + h, value)
 			
 				//draw the arrows at prev position -/+ arrowdisplacement with tints if they're possible
 				var arrowalpha = 1;
@@ -172,14 +174,17 @@ if(argument_count > 7)
 				{
 					arrowalpha = menu_disabled_alpha
 				}
-				draw_sprite_ext(menu_arrows[0], 0, x + variable_offset - variable_arrows_displacement, y + h, 1, 1, 0, c_white, arrowalpha)
+				draw_sprite_ext(menu_arrows[0], 0, x + width - sprite_get_width(menu_arrows[1]) * 2 - sprite_get_width(menu_arrows[0]) * 2 - menu_array[i][MENUDATA.MAX_VALUE_WIDTH], y + h, 1, 1, 0, c_white, arrowalpha)
 			
 				arrowalpha = 1
 				if(value == maxlimit)
 				{
 					arrowalpha = menu_disabled_alpha
 				}
-				draw_sprite_ext(menu_arrows[1], 0, x + variable_offset + variable_arrows_displacement, y + h, 1, 1, 0, c_white, arrowalpha)
+				draw_sprite_ext(menu_arrows[1], 0, x + width, y + h, 1, 1, 0, c_white, arrowalpha)
+				
+				
+				show_debug_message(menu_array[i][MENUDATA.MAX_VALUE_WIDTH])
 			}
 		}
 		else
@@ -218,7 +223,7 @@ if(argument_count > 7)
 			{
 				//it is a variable value
 			
-				//set text horizontal alignment to middle
+				//set text horizontal alignment to right
 				draw_set_halign(fa_center)
 				
 				//initialize some variables
@@ -316,9 +321,11 @@ if(argument_count > 7)
 		
 					xoff = menu_bump_dir_x * sin(pi * menu_bump_timer_x / menu_bump_time_x) * menu_bump_size_x
 				}
-			
+				
+				if(!is_string(value)) value = string(value)
+				
 				//draw text at x + variableoffset, y + h
-				draw_text(x + variable_offset + xoff, y + h, value)
+				draw_text(x + width + xoff - sprite_get_width(menu_arrows[1]) * 2 - menu_array[i][MENUDATA.MAX_VALUE_WIDTH]/2, y + h, value)
 			
 				//draw the arrows at prev position -/+ arrowdisplacement with tints if they're possible
 				var arrowalpha = 1;
@@ -327,14 +334,14 @@ if(argument_count > 7)
 				{
 					arrowalpha = menu_disabled_alpha
 				}
-				draw_sprite_ext(menu_arrows[0], 0, x + variable_offset - variable_arrows_displacement + (xoff * (menu_bump_dir_x == -1)), y + h, 1, 1, 0, c_white, arrowalpha)
+				draw_sprite_ext(menu_arrows[0], 0, x + width - sprite_get_width(menu_arrows[1]) * 2 - sprite_get_width(menu_arrows[0]) * 2 - menu_array[i][MENUDATA.MAX_VALUE_WIDTH] + (xoff * (menu_bump_dir_x == -1)), y + h, 1, 1, 0, c_white, arrowalpha)
 			
 				arrowalpha = 1
 				if(value == maxlimit)
 				{
 					arrowalpha = menu_disabled_alpha
 				}
-				draw_sprite_ext(menu_arrows[1], 0, x + variable_offset + variable_arrows_displacement + (xoff * (menu_bump_dir_x == 1)), y + h, 1, 1, 0, c_white, arrowalpha)
+				draw_sprite_ext(menu_arrows[1], 0, x + width + (xoff * (menu_bump_dir_x == 1)), y + h, 1, 1, 0, c_white, arrowalpha)
 			}
 			else
 			{

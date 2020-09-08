@@ -30,6 +30,31 @@ function menu_add_variable() {
 	menu_array[w][MENUDATA.MIN_VALUE] = argument[4]
 	menu_array[w][MENUDATA.MAX_VALUE] = argument[5]
 	menu_array[w][MENUDATA.STEP_SIZE] = argument[6]
+	
+	//set the MAX_VALUE_WIDTH for the variable (if it is one
+	if(argument[6] != 0)
+	{
+		var wid = 0;
+		if(is_array(argument[4]))
+		{
+			var arr = argument[4]
+			//it's an array style variable
+			for(var i = 0; i < array_length(argument[4]); i++)
+			{
+				wid = max(wid, string_width(arr[i]))
+			}
+			menu_array[w][MENUDATA.MAX_VALUE_WIDTH] = wid
+		}
+		else
+		{
+			//it's a number style variable
+			for(var i = argument[4]; i <= argument[5]; i += argument[6])
+			{
+				wid = max(wid, string_width(string(i)))
+			}
+			menu_array[w][MENUDATA.MAX_VALUE_WIDTH] = wid
+		}
+	}
 
 	select_index = 0;
 
