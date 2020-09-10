@@ -6,7 +6,7 @@
     "path": "folders/Scripts/Camera.yy",
   },
   "resourceVersion": "1.0",
-  "name": "CamInit",
+  "name": "cam_update_instance",
   "tags": [],
   "resourceType": "GMScript",
 }
