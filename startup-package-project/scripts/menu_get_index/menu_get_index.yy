@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Instances",
-    "path": "folders/Scripts/Instances.yy",
+    "name": "Menus",
+    "path": "folders/Scripts/Menus.yy",
   },
   "resourceVersion": "1.0",
-  "name": "JumpInDirection",
+  "name": "menu_get_index",
   "tags": [],
   "resourceType": "GMScript",
 }

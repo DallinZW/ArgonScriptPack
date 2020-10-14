@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Instances",
-    "path": "folders/Scripts/Instances.yy",
+    "name": "inputs",
+    "path": "folders/Scripts/inputs.yy",
   },
   "resourceVersion": "1.0",
-  "name": "JumpInDirection",
+  "name": "player_count",
   "tags": [],
   "resourceType": "GMScript",
 }

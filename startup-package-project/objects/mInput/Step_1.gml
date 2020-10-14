@@ -33,27 +33,29 @@ for ( var gamepad_id = 0; gamepad_id < max_gamepad_slot; gamepad_id++){
 			abs(gamepad_axis_value(gamepad_id, gp_axislh)) > .5 ||
 			abs(gamepad_axis_value(gamepad_id, gp_axislv)) > .5 {
 				
-			var this_gamepad_player_id		= ds_list_find_index(PLAYER_GAMEPAD_IDS, gamepad_id);
+			var this_gamepad_player_id		= ds_list_find_index(global.PLAYER_GAMEPAD_IDS, gamepad_id);
 			var gamepad_is_already_in_use	= (this_gamepad_player_id >= 0);
 			
 			if (!gamepad_is_already_in_use) {
 				/* This gamepad hasn't been assigned to any players yet, so we want to assign it now
 				because it has been activated! */
 				
-				var first_player_is_using_keyboard = (ds_list_find_value(PLAYER_GAMEPAD_IDS, 0) == -1);
+				var first_player_is_using_keyboard = (ds_list_find_value(global.PLAYER_GAMEPAD_IDS, 0) == -1);
 				
 				if first_player_is_using_keyboard {
 					/* We will also check whether the first player is using a keyboard.
 					If they are, we will swap them to the gamepad, allowing player 1
 					to seamlessly switch between keyboard and controller. */
 					
-					ds_list_replace(PLAYER_GAMEPAD_IDS, 0, gamepad_id);
+					ds_list_replace(global.PLAYER_GAMEPAD_IDS, 0, gamepad_id);
 				}
-				else if ds_list_size(PLAYER_GAMEPAD_IDS) < MAX_PLAYERS {
+				else if ds_list_size(global.PLAYER_GAMEPAD_IDS) < global.MAX_PLAYERS {
 					/* This is a whole new player, so we'll add this gamepad to the list. */
 					
-					ds_list_add(PLAYER_GAMEPAD_IDS, gamepad_id); 
+					ds_list_add(global.PLAYER_GAMEPAD_IDS, gamepad_id); 
 				}
+				
+				ds_list_add(global.PLAYER_GAMEPAD_DISCONNECTS, false)
 			}
 		}
 	}
@@ -66,13 +68,14 @@ We'll allow the "Select" or "Back" button to disconnect the gamepad, or if the g
 If it turns out that we've lost a gamepad, we will need to delete it from the list. So we want to
 start at the end of the list and iterate down to zero, so deleting stuff doesn't mess up our counts. */
 
-for ( var player_id = ds_list_size(PLAYER_GAMEPAD_IDS)-1; player_id >= 0; player_id--){
-	var this_player_gamepad_id = PLAYER_GAMEPAD_IDS[| player_id];
+for ( var player_id = ds_list_size(global.PLAYER_GAMEPAD_IDS)-1; player_id >= 0; player_id--){
+	var this_player_gamepad_id = global.PLAYER_GAMEPAD_IDS[| player_id];
 	if (this_player_gamepad_id >= 0) {
-		if !gamepad_is_connected(this_player_gamepad_id) || gamepad_button_check_pressed(this_player_gamepad_id, gp_select) {
+		if !gamepad_is_connected(this_player_gamepad_id) || global.PLAYER_GAMEPAD_DISCONNECTS[| player_id] {
 			
 			// Then we will remove this gamepad from our list by deleting the current player slot.
-			ds_list_delete(PLAYER_GAMEPAD_IDS, player_id);
+			ds_list_delete(global.PLAYER_GAMEPAD_IDS, player_id);
+			ds_list_delete(global.PLAYER_GAMEPAD_DISCONNECTS, player_id)
 		}
 	}
 }
@@ -81,14 +84,14 @@ for ( var player_id = ds_list_size(PLAYER_GAMEPAD_IDS)-1; player_id >= 0; player
 which is a bad situation. In that case, we should add -1 back in to the list, so player 1
 is back to using a keyboard. */
 
-if ds_list_empty(PLAYER_GAMEPAD_IDS) {
-	ds_list_add(PLAYER_GAMEPAD_IDS, -1);
+if ds_list_empty(global.PLAYER_GAMEPAD_IDS) {
+	ds_list_add(global.PLAYER_GAMEPAD_IDS, -1);
 }
 
 /* And last, if player 1 presses a keyboard or a mouse button, we want to switch them back to keyboard mode
 by simply ensuring that the first player's gamepad ID is -1. */
 if keyboard_check_pressed(vk_anykey) || mouse_check_button_pressed(mb_any){
-	ds_list_replace(PLAYER_GAMEPAD_IDS, 0, -1);	
+	ds_list_replace(global.PLAYER_GAMEPAD_IDS, 0, -1);	
 }
 
 /* Our input manager is now connecting and disconnecting controllers and keyboards dynamically.
@@ -101,18 +104,18 @@ var inputstate_temp;
 var inputvalue_temp;
 var inputvalue_array;
 
-for ( var player_id = 0; player_id < ds_list_size(PLAYER_GAMEPAD_IDS); player_id++){
+for ( var player_id = 0; player_id < ds_list_size(global.PLAYER_GAMEPAD_IDS); player_id++){
 	
 	/* For this player, we're going to iterate through our various input actions
 	and check the state of that button. Then, we'll update our INPUT_STATES array with the result. */
 	
-	var this_gamepad_id = ds_list_find_value(PLAYER_GAMEPAD_IDS, player_id);
+	var this_gamepad_id = ds_list_find_value(global.PLAYER_GAMEPAD_IDS, player_id);
 	
-	for ( var this_input_action = 0; this_input_action < array_length(INPUT_STATES[0]); this_input_action++){
+	for ( var this_input_action = 0; this_input_action < array_length(global.INPUT_STATES[0]); this_input_action++){
 		if this_gamepad_id != -1 
 		{
 			/* In this case, we have a gamepad connected. Let's check the gamepad for this input action! */
-			var this_input_button = INPUT_GAMEPAD_KEYS[this_input_action];
+			var this_input_button = global.INPUT_GAMEPAD_KEYS[this_input_action];
 			
 			/* We reset our temporary variable so we can have them all set to none */
 			inputstate_temp = input_state.none
@@ -144,12 +147,12 @@ for ( var player_id = 0; player_id < ds_list_size(PLAYER_GAMEPAD_IDS); player_id
 				}
 			}
 			
-			INPUT_STATES[player_id][this_input_action] = inputstate_temp
+			global.INPUT_STATES[player_id][this_input_action] = inputstate_temp
 		}
 		else 
 		{
 			/* In this case, we have a keyboard connected. Let's check the keyboard for this input action! */
-			var this_keyboard_button = INPUT_KEYBOARD_KEYS[this_input_action];
+			var this_keyboard_button = global.INPUT_KEYBOARD_KEYS[this_input_action];
 			
 			/* We reset our temporary variable so we can have them all set to none */
 			inputstate_temp = input_state.none
@@ -183,7 +186,7 @@ for ( var player_id = 0; player_id < ds_list_size(PLAYER_GAMEPAD_IDS); player_id
 			}
 			
 			/* the keyboard also is often in use with the mouse, so we'll check for mouse input at the same time */
-			var this_mouse_button = INPUT_MOUSE_KEYS[this_input_action]
+			var this_mouse_button = global.INPUT_MOUSE_KEYS[this_input_action]
 			
 			if(this_mouse_button != -1)
 			{
@@ -210,7 +213,7 @@ for ( var player_id = 0; player_id < ds_list_size(PLAYER_GAMEPAD_IDS); player_id
 				}
 			}
 			
-			INPUT_STATES[player_id][this_input_action] = inputstate_temp
+			global.INPUT_STATES[player_id][this_input_action] = inputstate_temp
 			
 			/* We have updated the state of this input action for this player in our INPUT_STATES array. */
 		}
@@ -218,38 +221,38 @@ for ( var player_id = 0; player_id < ds_list_size(PLAYER_GAMEPAD_IDS); player_id
 	
 	/* now we can sort through each input value, just like we did with the input actions! */
 	
-	for ( var this_input_value = 0; this_input_value < array_length(INPUT_VALUE_DATA); this_input_value++)
+	for ( var this_input_value = 0; this_input_value < array_length(global.INPUT_VALUE_DATA); this_input_value++)
 	{
 		//first, let's set the value based just on the input_states.
 		
 		//we'll start with the positive data
 		inputvalue_temp = 0
-		inputvalue_array = INPUT_VALUE_DATA[this_input_value][input_value_data.positive]
+		inputvalue_array = global.INPUT_VALUE_DATA[this_input_value][input_value_data.positive]
 		
-		for (var i = 0; i < array_length(INPUT_VALUE_DATA[this_input_value][input_value_data.positive]); i++)
+		for (var i = 0; i < array_length(global.INPUT_VALUE_DATA[this_input_value][input_value_data.positive]); i++)
 		{
 			inputvalue_temp = max(input_held(player_id, inputvalue_array[i]), inputvalue_temp)
 		}
 		
-		INPUT_VALUES[player_id][this_input_value] = inputvalue_temp
+		global.INPUT_VALUES[player_id][this_input_value] = inputvalue_temp
 		
 		//now add the negative data
 		inputvalue_temp = 0
-		inputvalue_array = INPUT_VALUE_DATA[this_input_value][input_value_data.negative]
+		inputvalue_array = global.INPUT_VALUE_DATA[this_input_value][input_value_data.negative]
 		
-		for (var i = 0; i < array_length(INPUT_VALUE_DATA[this_input_value][input_value_data.negative]); i++)
+		for (var i = 0; i < array_length(global.INPUT_VALUE_DATA[this_input_value][input_value_data.negative]); i++)
 		{
 			inputvalue_temp = max(input_held(player_id, inputvalue_array[i]), inputvalue_temp)
 		}
 		
-		INPUT_VALUES[player_id][this_input_value] -= inputvalue_temp
+		global.INPUT_VALUES[player_id][this_input_value] -= inputvalue_temp
 		
 		//if this is a gamepad, we need to check the axis too (as long as it's not -1 and it's absolute value is more than it already is)
-		inputvalue_temp = INPUT_VALUES[player_id][this_input_value]
-		inputvalue_array = INPUT_VALUE_DATA[this_input_value][input_value_data.axis]
+		inputvalue_temp = global.INPUT_VALUES[player_id][this_input_value]
+		inputvalue_array = global.INPUT_VALUE_DATA[this_input_value][input_value_data.axis]
 		if (this_gamepad_id != -1)
 		{
-			if(INPUT_VALUE_DATA[this_input_value][input_value_data.axis] != -1)
+			if(global.INPUT_VALUE_DATA[this_input_value][input_value_data.axis] != -1)
 			{
 				//we know it's an array, so we'll loop through it
 				for(var i = 0; i < array_length(inputvalue_array); i++)
@@ -259,7 +262,7 @@ for ( var player_id = 0; player_id < ds_list_size(PLAYER_GAMEPAD_IDS); player_id
 						inputvalue_temp = gamepad_axis_value(this_gamepad_id, inputvalue_array[i])
 					}
 				}
-				INPUT_VALUES[player_id][this_input_value] = inputvalue_temp
+				global.INPUT_VALUES[player_id][this_input_value] = inputvalue_temp
 			}
 		}
 	}

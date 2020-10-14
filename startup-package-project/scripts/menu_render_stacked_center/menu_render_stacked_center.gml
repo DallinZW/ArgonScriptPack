@@ -4,27 +4,40 @@
 ///@arg input_x
 ///@arg input_y
 ///@arg confirm
+///@arg [x_position]
+///@arg [y_position]
 ///@arg [change_sound]
 ///@arg [confirm_sound]
 function menu_render_stacked_center() {
 
 #region //set up the variables
-var h = 0;
-var str = "";
-var w = array_length(menu_array)
+	var h = 0;
+	var str = "";
+	var w = array_length(menu_array)
 
-var buffer = argument[0]
-var subbuffer = argument[1]
-var input_x = round(argument[2])
-var input_y = round(argument[3])
-var confirm = argument[4]
-var sound = -1
-var confirmsound = -1
-if(argument_count > 5)
-{
-	sound = argument[5]
-	confirmsound = argument[6]
-}
+	var buffer = argument[0]
+	var subbuffer = argument[1]
+	var input_x = round(argument[2])
+	var input_y = round(argument[3])
+	var confirm = argument[4]
+	var menu_position_xoff = 0
+	var menu_position_yoff = 0
+	var sound = -1
+	var confirmsound = -1
+	if(argument_count > 5)
+	{
+		menu_position_xoff = argument[5] - x
+		menu_position_yoff = argument[6] - y
+		
+		if(argument_count > 7)
+		{
+			sound = argument[7]
+			confirmsound = argument[8]
+		}
+	}
+	
+	x += menu_position_xoff
+	y += menu_position_yoff
 #endregion
 
 #region //update selected variables
@@ -259,12 +272,7 @@ if(argument_count > 5)
 					
 					value = string_array[menu_array[i][MENUDATA.STEP_SIZE]]
 					
-					
-				
-					show_debug_message(menu_array[i][MENUDATA.MAX_VALUE_WIDTH])
 					var arr = menu_array[i][MENUDATA.MIN_VALUE]
-					show_debug_message(string_width(arr[menu_array[i][MENUDATA.STEP_SIZE]]))
-					show_debug_message(arr[menu_array[i][MENUDATA.STEP_SIZE]])
 				}
 				else
 				{
@@ -359,6 +367,9 @@ if(argument_count > 5)
 	}
 	#endregion
 
+	x -= menu_position_xoff
+	y -= menu_position_yoff
+	
 	if(menu_confirmed) && (menu_bump_timer_y >= menu_bump_time_y)
 	{
 		menu_array[select_index][1]()

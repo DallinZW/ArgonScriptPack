@@ -23,13 +23,13 @@ function input_value_create() {
 	if(!is_array(the_axis)) the_axis = [the_axis]
 
 	// First we'll assign the input_value_data the info for this action
-	INPUT_VALUE_DATA[the_input_value][input_value_data.positive]	= the_positive_input_actions;
-	INPUT_VALUE_DATA[the_input_value][input_value_data.negative]	= the_negative_input_actions;
-	INPUT_VALUE_DATA[the_input_value][input_value_data.axis]		= the_axis;
+	global.INPUT_VALUE_DATA[the_input_value][input_value_data.positive]	= the_positive_input_actions;
+	global.INPUT_VALUE_DATA[the_input_value][input_value_data.negative]	= the_negative_input_actions;
+	global.INPUT_VALUE_DATA[the_input_value][input_value_data.axis]		= the_axis;
 
 	// Then, we'll set this input action's state to 0 for all players.
-	for ( var p = 0; p < MAX_PLAYERS; p++) {
-		INPUT_VALUES[p][the_input_value] = 0;
+	for ( var p = 0; p < global.MAX_PLAYERS; p++) {
+		global.INPUT_VALUES[p][the_input_value] = 0;
 	}
 
 	// Okay, let's pop back into init_inputs()!

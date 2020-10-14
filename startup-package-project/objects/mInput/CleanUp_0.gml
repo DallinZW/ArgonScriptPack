@@ -1,1 +1,2 @@
-ds_list_destroy(PLAYER_GAMEPAD_IDS)
+ds_list_destroy(global.PLAYER_GAMEPAD_IDS)
+ds_list_destroy(global.PLAYER_GAMEPAD_DISCONNECTS)

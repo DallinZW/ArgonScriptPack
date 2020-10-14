@@ -12,7 +12,7 @@ function init_inputs(argument0) {
 	automatically assign the ID numbers of each of the input actions. To learn more about enumerators,
 	you can just middle-click the word 'enum' below. */
 
-	enum input_action { up, down, left,	right, jump, confirm };
+	enum input_action { up, down, left,	right, jump, confirm, back };
 
 	// Next, we'll make an enum for input values- eg gamepads axes and multi-button thingies.
 
@@ -33,18 +33,22 @@ function init_inputs(argument0) {
 
 	// Now we'll set up some global variables to store all of our different bits of information.
 
-	globalvar MAX_PLAYERS;			MAX_PLAYERS			= argument0;	// This is a variable that lets us set the maximum number of players we want to handle.
-	globalvar INPUT_STATES;			INPUT_STATES		= 0;	// This will be a 2D array that holds the state of each input action for each player.
-	globalvar INPUT_VALUES;			INPUT_VALUES		= 0;	// This will be a 2D array that holds the value of each joystick for each player.
-	globalvar INPUT_VALUE_DATA;		INPUT_VALUE_DATA	= 0;	// This will be a 2D array that holds the inputs and joysticks for each input_value.
-	globalvar INPUT_KEYBOARD_KEYS;	INPUT_KEYBOARD_KEYS	= 0;	// This will be a 1D array that holds the keyboard hotkey assignments for each input action.
-	globalvar INPUT_GAMEPAD_KEYS;	INPUT_GAMEPAD_KEYS	= 0;	// This will be a 1D array that holds the gamepad hotkey assignments for each input action.
-	globalvar INPUT_MOUSE_KEYS;		INPUT_MOUSE_KEYS	= 0;	// This will be a 1D array that holds the mouse hotkey assignments for each input action.
+	global.MAX_PLAYERS			= argument0;	// This is a variable that lets us set the maximum number of players we want to handle.
+	global.INPUT_STATES			= 0;	// This will be a 2D array that holds the state of each input action for each player.
+	global.INPUT_VALUES			= 0;	// This will be a 2D array that holds the value of each joystick for each player.
+	global.INPUT_VALUE_DATA		= 0;	// This will be a 2D array that holds the inputs and joysticks for each input_value.
+	global.INPUT_KEYBOARD_KEYS	= 0;	// This will be a 1D array that holds the keyboard hotkey assignments for each input action.
+	global.INPUT_GAMEPAD_KEYS	= 0;	// This will be a 1D array that holds the gamepad hotkey assignments for each input action.
+	global.INPUT_MOUSE_KEYS		= 0;	// This will be a 1D array that holds the mouse hotkey assignments for each input action.
 
 	// Next, we'll create a list that will let us store the control method assigned to each player.
-	globalvar PLAYER_GAMEPAD_IDS;		PLAYER_GAMEPAD_IDS	= ds_list_create(); 
+	global.PLAYER_GAMEPAD_IDS = ds_list_create(); 
+	
+	//this one will be a list that stores disconnected controllers
+	global.PLAYER_GAMEPAD_DISCONNECTS = ds_list_create(); 
 
-	ds_list_add(PLAYER_GAMEPAD_IDS, -1);
+	ds_list_add(global.PLAYER_GAMEPAD_IDS, -1);
+	ds_list_add(global.PLAYER_GAMEPAD_DISCONNECTS, false);
 
 	/* Each position in the PLAYER_GAMEPAD_IDS list corresponds to a unique player.
 
@@ -58,8 +62,9 @@ function init_inputs(argument0) {
 	input_create(input_action.down,		[ord("S"), vk_down],	gp_padd);
 	input_create(input_action.left,		[ord("A"), vk_left],	gp_padl);
 	input_create(input_action.right,	[ord("D"), vk_right],	gp_padr);
-	input_create(input_action.jump,		[vk_lshift, vk_space],	gp_face1);
-	input_create(input_action.confirm,	vk_enter, gp_face2)
+	input_create(input_action.jump,		[vk_lshift, vk_space],	gp_face2);
+	input_create(input_action.confirm,	vk_enter, gp_face1)
+	input_create(input_action.back,	[vk_rshift, vk_lshift], gp_face2)
 	input_value_create(input_values.horizontal,	input_action.right, input_action.left,	gp_axislh)
 	input_value_create(input_values.vertical,	input_action.down,	input_action.up,	gp_axislv)
 
@@ -67,7 +72,7 @@ function init_inputs(argument0) {
 	//gamepad_ids go from 0-11
 	for(var i = 0; i < 12; i++)
 	{
-		gamepad_set_axis_deadzone(i, 0.15)
+		gamepad_set_axis_deadzone(i, 0.71)
 	}
 	/* We have initialized all of our input actions and given them keyboard and gamepad keys.
 

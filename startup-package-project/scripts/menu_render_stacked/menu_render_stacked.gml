@@ -366,7 +366,7 @@ if(argument_count > 6)
 
 	if(menu_confirmed) && (menu_bump_timer_y >= menu_bump_time_y)
 	{
-		menu_array[select_index][1]()
+		menu_array[select_index][1]() 
 		menu_confirmed = false
 	}
 }

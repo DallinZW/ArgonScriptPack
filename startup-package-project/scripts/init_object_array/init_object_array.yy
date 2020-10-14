@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Instances",
-    "path": "folders/Scripts/Instances.yy",
+    "name": "Object arrays",
+    "path": "folders/Scripts/Object arrays.yy",
   },
   "resourceVersion": "1.0",
-  "name": "JumpInDirection",
+  "name": "init_object_array",
   "tags": [],
   "resourceType": "GMScript",
 }

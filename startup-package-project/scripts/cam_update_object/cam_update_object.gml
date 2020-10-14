@@ -2,8 +2,8 @@
 // https://help.yoyogames.com/hc/en-us/articles/360005277377 for more information
 function cam_update_object(object, x_offset, y_offset)
 {
-	var x_test = 0;
-	var y_test = 0;
+	x_test = 0;
+	y_test = 0;
 	var count = instance_number(object)
 	
 	with(object)
