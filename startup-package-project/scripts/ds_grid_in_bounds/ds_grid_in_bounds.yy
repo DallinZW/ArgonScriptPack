@@ -2,8 +2,8 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Lazyeye's Data Scripts",
-    "path": "folders/Scripts/Lazyeye's Data Scripts.yy",
+    "name": "Data Structures",
+    "path": "folders/Scripts/Data Structures.yy",
   },
   "resourceVersion": "1.0",
   "name": "ds_grid_in_bounds",

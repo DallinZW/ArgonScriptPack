@@ -6,7 +6,7 @@
     "path": "folders/Scripts/Data Structures.yy",
   },
   "resourceVersion": "1.0",
-  "name": "array_find_index",
+  "name": "DS_map_convenience_methods",
   "tags": [],
   "resourceType": "GMScript",
 }

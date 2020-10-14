@@ -2,11 +2,11 @@
   "isDnD": false,
   "isCompatibility": false,
   "parent": {
-    "name": "Data Structures",
-    "path": "folders/Scripts/Data Structures.yy",
+    "name": "Maths",
+    "path": "folders/Scripts/Maths.yy",
   },
   "resourceVersion": "1.0",
-  "name": "array_find_index",
+  "name": "Easing",
   "tags": [],
   "resourceType": "GMScript",
 }
